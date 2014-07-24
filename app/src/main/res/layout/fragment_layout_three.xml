@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vozt"
+        android:id="@+id/Voz"
+        android:clickable="false"
+        android:layout_alignTop="@+id/textView8"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adelante Recto"
+        android:id="@+id/adRecto"
+        android:textSize="25dp"
+        android:textColor="#ffff0000"
+        android:layout_below="@+id/textView8"
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_alignStart="@+id/textView8" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adelante Derecha"
+        android:id="@+id/adDer"
+        android:textSize="25dp"
+        android:textColor="#ffff0000"
+        android:layout_below="@+id/adRecto"
+        android:layout_alignLeft="@+id/adRecto"
+        android:layout_alignStart="@+id/adRecto" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adelante Izquierda"
+        android:id="@+id/adIzq"
+        android:textSize="25dp"
+        android:textColor="#ffff0000"
+        android:layout_below="@+id/adDer"
+        android:layout_alignLeft="@+id/adDer"
+        android:layout_alignStart="@+id/adDer" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atras Recto"
+        android:id="@+id/atRecto"
+        android:textSize="25dp"
+        android:textColor="#ffff0000"
+        android:layout_below="@+id/adIzq"
+        android:layout_alignLeft="@+id/adIzq"
+        android:layout_alignStart="@+id/adIzq" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atras Derecha"
+        android:id="@+id/atDer"
+        android:textSize="25dp"
+        android:textColor="#ffff0000"
+        android:layout_below="@+id/atRecto"
+        android:layout_alignLeft="@+id/atRecto"
+        android:layout_alignStart="@+id/atRecto" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atras Izquierda"
+        android:id="@+id/atIzq"
+        android:textSize="25dp"
+        android:textColor="#ffff0000"
+        android:layout_below="@+id/atDer"
+        android:layout_alignLeft="@+id/atDer"
+        android:layout_alignStart="@+id/atDer" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MOVIMIENTO DEL ROBOT"
+        android:id="@+id/textView8"
+        android:textSize="30dp"
+        android:layout_marginRight="91dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="233dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btofft"
+
+        android:id="@+id/Desconectar"
+
+        android:layout_alignTop="@+id/Conectar"
+        android:layout_toRightOf="@+id/Conectar" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btont"
+        android:id="@+id/Conectar"
+        android:textAlignment="gravity"
+        android:layout_marginLeft="163dp"
+        android:layout_alignBottom="@+id/textView8"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pulse para hablar"
+        android:id="@+id/textView9"
+        android:textSize="25dp"
+        android:layout_below="@+id/Voz"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

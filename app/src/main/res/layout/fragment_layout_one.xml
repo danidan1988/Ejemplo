@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UNIVERSIDAD DE CASTILLA LA MANCHA"
+        android:id="@+id/xID"
+        android:textSize="48dp"
+        android:layout_below="@+id/Flecha"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Flecha"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/fabricadearmas2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ESCUELA DE INGENIERÍA INDUSTRIAL DE TOLEDO"
+        android:id="@+id/yID"
+        android:layout_below="@+id/xID"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:textSize="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRABAJO FIN DE GRADO Nº XX-A/B-XXXXXX"
+        android:id="@+id/zID"
+        android:layout_below="@+id/yID"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CONTROL MULTIMODO DE UN ROBOT MEDIANTE UN SMARTPHONE ANDROID"
+        android:id="@+id/atRecto"
+        android:layout_below="@+id/zID"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/iti2"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/atRecto"
+        android:layout_alignLeft="@+id/zID"
+        android:layout_alignStart="@+id/zID" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Autor"
+        android:id="@+id/atDer"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_alignLeft="@+id/Flecha"
+        android:layout_alignStart="@+id/Flecha"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DANIEL MARTÍN-CARO GARCÍA"
+        android:id="@+id/atIzq"
+        android:layout_below="@+id/atDer"
+        android:layout_alignLeft="@+id/atDer"
+        android:layout_alignStart="@+id/atDer"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Director"
+        android:id="@+id/textView7"
+        android:layout_below="@+id/atIzq"
+        android:layout_alignLeft="@+id/atIzq"
+        android:layout_alignStart="@+id/atIzq"
+        android:textIsSelectable="false"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FRANCISCO PASCUAL ROMERO CHICHARRO"
+        android:id="@+id/textView9"
+        android:layout_below="@+id/textView7"
+        android:layout_alignLeft="@+id/textView7"
+        android:layout_alignStart="@+id/textView7"
+        android:textSize="20dp" />
+
+</RelativeLayout>
