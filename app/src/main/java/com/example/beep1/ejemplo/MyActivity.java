@@ -105,7 +105,7 @@ public class MyActivity extends Activity
                 break;
 
         }
-    }
+    } //
 
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
