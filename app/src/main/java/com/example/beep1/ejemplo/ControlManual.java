@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,20 +11,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.UUID;
 
 
-/**
- * Created by beep1 on 19/07/2014.
- */
-public class MyFragment4 extends Fragment {
 
-    private static final int VOICE_RECOGNITION_REQUEST_CODE = 1;
+public class ControlManual extends Fragment implements View.OnClickListener {
+
     private String datos_envio;
     private OutputStream outStream = null;
     private BluetoothSocket btSocket = null;
@@ -33,19 +27,23 @@ public class MyFragment4 extends Fragment {
     private static final String TAG = "Conectar";
     private static String address = "98:D3:31:50:0D:AC";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    Button alante,atras,der,izq;
+    Button alante,atras,der,izq,conectar,desconectar;
     public boolean adelante = false, atras2 = false,derecha = false ,izquierda = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ComprobarBt();
+        comprobarBt();
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         Log.e("Conectado", device.toString());
-        Conectar();
 
-        View view = inflater.inflate(R.layout.fragment_layout_four, container,
+        View view = inflater.inflate(R.layout.control_manual, container,
                 false);
+
+        conectar =  (Button)view.findViewById(R.id.Conectar);
+        conectar.setOnClickListener(this);
+        desconectar =  (Button)view.findViewById(R.id.Desconectar);
+        desconectar.setOnClickListener(this);
 
         alante =  (Button)view.findViewById(R.id.ad);
         alante.setOnTouchListener(new View.OnTouchListener() {
@@ -59,24 +57,20 @@ public class MyFragment4 extends Fragment {
                     if(adelante) {
 
                         datos_envio = "a";
-                        writeData(datos_envio);
-                    };
-
-
+                        escribirInf(datos_envio);
+                    }
 
                     return true;
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
-
 
                     adelante = false;
 
                     if(adelante==false) {
 
                         datos_envio = "s";
-                        writeData(datos_envio);
-                    };
-
+                        escribirInf(datos_envio);
+                    }
 
                     return true;
                 }
@@ -94,7 +88,7 @@ public class MyFragment4 extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_DOWN ) {
 
                     datos_envio = "d";
-                    writeData(datos_envio);
+                    escribirInf(datos_envio);
 
                     atras2 = true;
 
@@ -103,7 +97,7 @@ public class MyFragment4 extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_UP ) {
 
                     datos_envio = "s";
-                    writeData(datos_envio);
+                    escribirInf(datos_envio);
 
                     atras2 = false;
 
@@ -126,14 +120,14 @@ public class MyFragment4 extends Fragment {
                     if((adelante)&&(derecha)) {
 
                         datos_envio = "b";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
 
                     if((atras2)&&(derecha)) {
 
                         datos_envio = "e";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
                     
 
                     return true;
@@ -145,14 +139,14 @@ public class MyFragment4 extends Fragment {
                     if((adelante)&&(derecha==false)) {
 
                         datos_envio = "a";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
 
                     if((atras2)&&(derecha==false)) {
 
                         datos_envio = "d";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
 
                     return true;
                 }
@@ -173,14 +167,14 @@ public class MyFragment4 extends Fragment {
                     if((adelante)&&(izquierda)) {
 
                         datos_envio = "c";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
 
                     if((atras2)&&(izquierda)) {
 
                         datos_envio = "f";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
 
                     return true;
                 }
@@ -191,14 +185,14 @@ public class MyFragment4 extends Fragment {
                     if((adelante)&&(izquierda==false)) {
 
                         datos_envio = "a";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
 
                     if((atras2)&&(izquierda==false)) {
 
                         datos_envio = "d";
-                        writeData(datos_envio);
-                    };
+                        escribirInf(datos_envio);
+                    }
 
                     return true;
                 }
@@ -208,30 +202,29 @@ public class MyFragment4 extends Fragment {
             }
         });
 
-        Direccion();
-
         return view;
     }
 
-    private void Direccion(){
-        if((adelante)) {
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.Conectar:
+                conectarBt();
+                break;
+            case R.id.Desconectar:
+                desconectarBt();
 
-            datos_envio = "a";
-            writeData(datos_envio);
+                break;
 
-        };
-
-
-
-
+        }
     }
 
-    private void writeData(String data){
+
+    private void escribirInf(String data){
 
         try {
             outStream = btSocket.getOutputStream();
         } catch (IOException e) {
-            Log.d(TAG, "Error antes de enviar informaci�n", e);
+            Log.d(TAG, "Error antes de enviar información", e);
         }
 
         String message = data;
@@ -240,45 +233,44 @@ public class MyFragment4 extends Fragment {
         try {
             outStream.write(msgBuffer);
         } catch (IOException e) {
-            Log.d(TAG, "Error mientras se env�a la informaci�n", e);
+            Log.d(TAG, "Error mientras se envíaa la información", e);
         }
     }
 
-    private void ComprobarBt() {
+    private void comprobarBt() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (!mBluetoothAdapter.isEnabled()) {
-            Toast.makeText(getActivity().getApplicationContext(), "Bluetooth Disabled !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Bluetooth Desactivado !", Toast.LENGTH_SHORT).show();
         }
 
         if (mBluetoothAdapter == null) {
-            Toast.makeText(getActivity().getApplicationContext(),"Bluetooth null !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(),"No hay Bluetooth !", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void Conectar() {
+    public void conectarBt() {
 
         Log.d(TAG, address);
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-        Log.d(TAG, "Connecting to ... " + device);
+        Log.d(TAG, "Conectando a ... " + device);
         mBluetoothAdapter.cancelDiscovery();
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
             btSocket.connect();
-            Log.d(TAG, "Conexi�n realizada.");
+            Log.d(TAG, "Conexión realizada.");
         } catch (IOException e) {
             try {
                 btSocket.close();
             } catch (IOException e2) {
-                Log.d(TAG, "No se pudo terminar la conexi�n");
+                Log.d(TAG, "No se pudo terminar la conexión");
             }
-            Log.d(TAG, "Fallo al crear la conexi�n");
+            Log.d(TAG, "Fallo al crear la conexión");
         }
 
     }
 
-    private void Desconectar() {
-
+    private void desconectarBt() {
 
         if (outStream != null) {
             try {outStream.close();} catch (Exception e) {}
@@ -303,9 +295,5 @@ public class MyFragment4 extends Fragment {
         }
 
     }
-
-
-
-
 
 }
