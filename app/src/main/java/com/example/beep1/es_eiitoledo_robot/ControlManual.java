@@ -1,4 +1,6 @@
-package com.example.beep1.ejemplo;
+package com.example.beep1.es_eiitoledo_robot;
+
+/* Librerías importadas */
 
 import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
@@ -16,22 +18,24 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.UUID;
 
-
+//Declaramos la clase, extendemos el Fragment que la contiene e implementamos un listener que nos
+//permitirá dar una función a un botón al clicarlo.
 
 public class ControlManual extends Fragment implements View.OnClickListener {
 
-    private String datos_envio;
-    private OutputStream outStream = null;
-    private BluetoothSocket btSocket = null;
-    private BluetoothAdapter mBluetoothAdapter = null;
-    private static final String TAG = "Conectar";
-    private static String address = "98:D3:31:50:0D:AC";
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    Button alante,atras,der,izq,conectar,desconectar;
-    public boolean adelante = false, atras2 = false,derecha = false ,izquierda = false;
+    private String datos_envio; //Variable que almacena los datos de envío por Bluetooth
+    private OutputStream outStream = null; //Declaración de constructor Bluetooth
+    private BluetoothSocket btSocket = null; //Declaración de constructor Bluetooth
+    private BluetoothAdapter mBluetoothAdapter = null; //Declaración de constructor Bluetooth
+    private static final String TAG = "Conectar"; //Etiqueta
+    private static String address = "98:D3:31:50:0D:AC"; //Dirección del módulo Bluetooth
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); //Declaración del UUID Bluetooth
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+
+    Button alante,atras,der,izq,conectar,desconectar; //Botones implementados en la interfaz
+    public boolean adelante = false, atras2 = false,derecha = false ,izquierda = false; //Variables booleanas usadas para programar el movimiento
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         comprobarBt();
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
@@ -40,9 +44,9 @@ public class ControlManual extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.control_manual, container,
                 false);
 
-        conectar =  (Button)view.findViewById(R.id.Conectar);
+        conectar = (Button)view.findViewById(R.id.Conectar);
         conectar.setOnClickListener(this);
-        desconectar =  (Button)view.findViewById(R.id.Desconectar);
+        desconectar = (Button)view.findViewById(R.id.Desconectar);
         desconectar.setOnClickListener(this);
 
         alante =  (Button)view.findViewById(R.id.ad);
@@ -205,63 +209,74 @@ public class ControlManual extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    //Función usada para conectar y desconectar el Bluetooth mediante la pulsación de los botones Conectar y Desconectar
+
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.Conectar:
+            case R.id.Conectar: //Si se detecta que el botón pulsado ha sido el de conectar llamaremos a la función conectarBt
+
                 conectarBt();
+
                 break;
             case R.id.Desconectar:
-                desconectarBt();
+
+                desconectarBt(); //Si se detecta que el botón pulsado ha sido el de conectar llamaremos a la función desconectarBt
 
                 break;
 
         }
     }
 
+    //Función que se encarga de enviar el string con los datos que indican el movmimento
 
     private void escribirInf(String data){
 
         try {
-            outStream = btSocket.getOutputStream();
+            outStream = btSocket.getOutputStream(); //Asigna a la variable outStream el flujo de salida del socket Bt
         } catch (IOException e) {
             Log.d(TAG, "Error antes de enviar información", e);
         }
 
-        String message = data;
-        byte[] msgBuffer = message.getBytes();
+        String mensaje = data; //Almacena el caracter escrito en la función en una variable llamada mensaje
+        byte[] msgBuffer = mensaje.getBytes(); //Codifica la variable String mensaje en una secuencia de bytes y la escribe en msgBuffer para ser mandada posteriormente
 
         try {
-            outStream.write(msgBuffer);
+            outStream.write(msgBuffer); //Escribe la información msgBuffer en el flujo de salida, produciéndose el envío
         } catch (IOException e) {
-            Log.d(TAG, "Error mientras se envíaa la información", e);
+            Log.d(TAG, "Error mientras se envía la información", e);
         }
     }
 
+    //Función que realiza la comprobación de que el dispositivo tenga Bluetooth y esté activado
+
     private void comprobarBt() {
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (!mBluetoothAdapter.isEnabled()) {
             Toast.makeText(getActivity().getApplicationContext(), "Bluetooth Desactivado !", Toast.LENGTH_SHORT).show();
-        }
+        } //En caso de que el Bluetooth no esté activado muestra un toast diciendo con el mensaje "Bluetooth Desactivado"
 
         if (mBluetoothAdapter == null) {
             Toast.makeText(getActivity().getApplicationContext(),"No hay Bluetooth !", Toast.LENGTH_SHORT).show();
-        }
+        } //En caso de que el Bluetooth no esté activado muestra un toast diciendo con el mensaje "Bluetooth Desactivado"
     }
+
+    //Función que realiza la conexión entre el dispositivo y el módulo Bluetooth
 
     public void conectarBt() {
 
         Log.d(TAG, address);
-        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-        Log.d(TAG, "Conectando a ... " + device);
+        BluetoothDevice dispositivo = mBluetoothAdapter.getRemoteDevice(address); //Se crea un nuevo dispositivo y se le asigna la dirección del módulo Bt
+        Log.d(TAG, "Conectando a ... " + dispositivo);
         mBluetoothAdapter.cancelDiscovery();
         try {
-            btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-            btSocket.connect();
+            btSocket = dispositivo.createRfcommSocketToServiceRecord(MY_UUID); //Se abre un nuevo Socket Bt y se le asigna la UUID declarada anteriormente
+            btSocket.connect(); //Se intenta establecer la conexión
             Log.d(TAG, "Conexión realizada.");
         } catch (IOException e) {
             try {
-                btSocket.close();
+                btSocket.close(); //En caso de no poderse establecer la conexión se cierra el Socket
             } catch (IOException e2) {
                 Log.d(TAG, "No se pudo terminar la conexión");
             }
@@ -270,14 +285,16 @@ public class ControlManual extends Fragment implements View.OnClickListener {
 
     }
 
+    //Función que realiza la desconexión entre el dispositivo y el módulo Bluetooth
+
     private void desconectarBt() {
 
-        if (outStream != null) {
+        if (outStream != null) { //Para el envío de mensajes
             try {outStream.close();} catch (Exception e) {}
             outStream = null;
         }
 
-        if (btSocket != null) {
+        if (btSocket != null) { //Cierra el socket de conexión
             try {btSocket.close();} catch (Exception e) {}
             btSocket = null;
         }
